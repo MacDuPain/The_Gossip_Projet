@@ -1,0 +1,31 @@
+<% if flash[:error] %>
+  <div class="alert alert-danger">
+    <%= flash[:error] %>
+  </div>
+<% end %>
+
+
+
+<% if flash[:error] %>
+  <div class="alert alert-danger">
+    <%= flash[:error] %>
+  </div>
+<% end %>
+
+<% if flash[:error] %>
+  <div class="alert alert-danger">
+    <%= flash[:error] %>
+  </div>
+<% end %>
+
+<%= form_with(model: @gossip, url: gossips_path) do |form| %>
+  <%= form.label :title, "Titre :" %>
+  <%= form.text_field :title, class: "form-control" %>
+
+  <%= form.label :description, "Contenu :" %>
+  <%= form.text_area :description, class: "form-control" %>
+
+  <%= form.hidden_field :user_id, value: User.find_or_create_by(first_name: "Anonyme").id %>
+
+  <%= form.submit "Submit", class: "btn btn-primary" %>
+<% end %>

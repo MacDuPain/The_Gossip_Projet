@@ -1,0 +1,38 @@
+<head>
+  <%= javascript_include_tag 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js' %>
+</head>
+<body>
+
+<div class="container">
+  <% if current_user %>
+    <h1>Bienvenue <%= current_user.email %> !</h1>
+  <% else %>
+    <h1>Bienvenue</h1>
+  <% end %>
+
+  <% if flash[:success] %>
+    <div class="alert alert-success">
+      <%= flash[:success] %>
+    </div>
+  <% end %>
+
+  <p>C'est notre giga site de potins !</p>
+
+  <%= link_to "Créer un nouveau potin", new_gossip_path, class: "btn btn-primary" %>
+
+  <div class="d-flex flex-wrap">
+    <% @users.each do |user| %>
+      <div class="card text-white bg-dark mb-3 mx-2" style="width: 22rem;">
+        <div class="card-header"><%= user.first_name %></div>
+        <div class="card-body">
+          <% user.gossips.each do |gossip| %>
+            <p class="card-text">
+              <%= gossip.title %>
+              <%= link_to "En savoir plus", gossip_path(gossip), class: "btn btn-primary" %>
+            </p>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

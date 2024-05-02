@@ -1,0 +1,49 @@
+<div class="container">
+  <h1 class="mt-5">Voici la page du potin</h1>
+  <div class="card mt-3">
+    <div class="card-body">
+      <h5 class="card-title"><%= @gossip.title %></h5>
+      <p class="card-text"><%= @gossip.description %></p>
+      <% if current_user %>
+        <% if current_user && current_user.likes.exists?(gossip_id: @gossip.id) %>
+          <%= button_to "Unlike", unlike_gossip_path(@gossip), method: :delete, remote: true %>
+        <% else %>
+          <%= button_to "Like", like_gossip_path(@gossip), method: :post, remote: true %>
+        <% end %>
+      <% else %>
+        <%= link_to "Log in to like", new_user_session_path %>
+      <% end %>
+    </div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item"><strong>Auteur:</strong> <%= link_to @gossip.user.first_name, user_path(@gossip.user) %></li>
+      <li class="list-group-item"><strong>Ville:</strong>
+        <% if @gossip.user.city %>
+          <%= link_to @gossip.user.city.name, city_path(@gossip.user.city) %>
+        <% else %>
+          Ville inconnue
+        <% end %>
+      </li>
+      <li class="list-group-item"><strong>Date de création:</strong> <%= @gossip.created_at %></li>
+      <li class="list-group-item"><strong>Nombre de likes: </strong><%= @gossip.likes.count %></li>
+    </ul>
+  </div>
+</div>
+
+<% @gossip.comments.each do |comment| %>
+  <div class="comment">
+    <p><strong>Auteur :</strong> <%= comment.user.first_name %></p>
+    <p><%= comment.text %></p>
+    <% if current_user == comment.user %>
+      <%= link_to "Modifier", edit_comment_path(comment) %>
+    <% end %>
+  </div>
+<% end %>
+
+<% if current_user == @gossip.user %>
+  <%= link_to "Modifier", edit_gossip_path(@gossip), class: "btn btn-primary" %>
+<% end %>
+
+<%= button_to "Supprimer", gossip_path(@gossip), method: :delete, class: "btn btn-danger" %>
+<%= link_to "Ajouter un commentaire", new_gossip_comment_path(@gossip), class: "btn btn-primary" %>
+
+

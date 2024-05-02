@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+</head>
+<body>
+  <div class="container">
+    <h1 class="mt-5">Profil de <%= @user.first_name %> <%= @user.last_name %></h1>
+    <div class="card mt-3">
+      <div class="card-body">
+        <h5 class="card-title">Description</h5>
+        <p class="card-text"><%= @user.description %></p>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item"><strong>Prénom:</strong> <%= @user.first_name %></li>
+        <li class="list-group-item"><strong>Nom:</strong> <%= @user.last_name %></li>
+        <li class="list-group-item"><strong>E-mail:</strong> <%= @user.email %></li>
+        <li class="list-group-item"><strong>Âge:</strong> <%= @user.age %></li>
+        <% if @user.city %>
+  <li class="list-group-item"><strong>Ville:</strong> <%= link_to @user.city.name, city_path(@user.city) %></li>
+<% else %>
+  <li class="list-group-item"><strong>Ville:</strong> Aucune ville associée</li>
+<% end %>
+
+      </ul>
+    </div>
+  </div>
+</body>
+</html>
